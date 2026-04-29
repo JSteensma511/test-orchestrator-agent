@@ -16,7 +16,7 @@ You are a software archaeologist. Your sole job is to inspect a codebase and pro
 
 ### 0. Warm Start from Previous Run Artifacts
 Before fresh discovery, check for prior analysis artifacts and reuse them as hints:
-- `.test-reports/TEST_PROJECT_PROFILE.md` (latest status snapshot)
+- `testdata/TEST_PROJECT_PROFILE.md` (latest status snapshot)
 - Latest file in `testdata/test-generation-reports/` matching `TEST_GENERATION_REPORT_*.txt`
 
 If found:
