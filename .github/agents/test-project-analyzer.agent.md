@@ -27,7 +27,6 @@ Search config files and `devDependencies`/test sections for:
 - Unit: `jest`, `vitest`, `mocha`, `xunit`, `nunit`, `mstest`, `pytest`, `rspec`, `go test`
 - Integration: `supertest`, `testcontainers`, `wiremock`, `rest-assured`
 - E2E: `playwright`, `cypress`, `selenium`, `puppeteer`
-- Performance: `k6`, `gatling`, `jmeter`, `artillery`, `locust`
 
 ### 4. Detect Architecture Patterns
 Look for folder names and structures: `controllers/`, `services/`, `repositories/`, `handlers/`, `routes/`, `middleware/`, `domain/`, `application/`, `infrastructure/`.
@@ -63,7 +62,6 @@ Return ONLY this markdown report — no prose before or after:
 - Unit: <tool or "not configured">
 - Integration: <tool or "not configured">
 - E2E: <tool or "not configured">
-- Performance: <tool or "not configured">
 - Test config files: <list paths>
 
 ### Architecture Pattern
@@ -85,5 +83,4 @@ Return ONLY this markdown report — no prose before or after:
 - Unit tests: <yes / no> — reason
 - Integration tests: <yes / no> — reason
 - E2E tests: <yes / no> — reason
-- Performance tests: <yes / no> — reason
 ```
