@@ -99,7 +99,7 @@ Return ONLY this markdown report — no prose before or after:
 
 ## Save the Profile
 
-After producing the Project Test Profile, **always overwrite** `.test-reports/TEST_PROJECT_PROFILE.md` in the project root with a concise, current-status summary (not the full profile). Create the `.test-reports` folder if it does not exist. Never append — always replace the entire file.
+After producing the Project Test Profile, **always overwrite** `testdata/TEST_PROJECT_PROFILE.md` in the project root with a concise, current-status summary (not the full profile). Create the `testdata` folder if it does not exist. Never append — always replace the entire file.
 
 Use this exact file structure for the saved summary:
 
