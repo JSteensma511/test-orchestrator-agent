@@ -35,19 +35,30 @@ Do NOT include:
 
 ## Approach
 
-1. Read the Project Test Profile to identify the E2E tool (Playwright preferred; Cypress fallback).
-2. Ask the orchestrator (or infer from the codebase) what the application's main user flows are.
-3. Read existing page objects, fixtures, or helpers if present — reuse them.
-4. Design a **User Journey Map** before writing any code:
+### Pre-flight — Read Before You Write
+Before writing a single line of test code, complete all of these steps:
+
+1. Read the **Concrete Code Patterns** and **Path & Module Resolution** sections from the Project Test Profile to understand the import conventions and assertion style used in this project.
+2. Read **all existing E2E spec files, page objects, and fixtures** in the project. Note: how are page objects imported, how is `baseURL` configured, how are API preconditions set up, which locator strategy is used (`getByRole`, `data-testid`, etc.).
+3. Read the **E2E tool config file** (`playwright.config.*`, `cypress.config.*`) — extract `baseURL`, `use`, `testDir`, any global setup/teardown hooks, and browser configuration.
+4. Read the **Concrete Code Patterns** from the Project Test Profile. Use the import block snippet verbatim as the starting template for imports.
+5. Infer the application's main user flows from the existing specs and source code — do NOT ask the orchestrator.
+
+### Design
+6. Design a **User Journey Map** before writing any code:
    - List each journey with a one-line description.
    - Mark which are P0 (must pass before any release) vs P1 (important but non-blocking).
-5. Write test files organized by journey. Create page object / fixture files for reusable UI interactions.
-6. For each test:
-   - Set up preconditions via API calls (faster than UI setup).
-   - Execute the UI journey.
+   - For each journey, identify which existing page objects or fixtures can be reused.
+
+### Writing
+7. Write test files organized by journey. Reuse existing page objects and fixtures — only create new ones for interactions not already covered.
+8. For each test:
+   - Set up preconditions via API calls (faster than UI setup) using the same pattern as existing fixtures.
+   - Execute the UI journey using semantic locators consistent with the project's existing tests.
    - Assert the final state.
    - Clean up test data via API or DB reset.
-7. **Run & Verify** — execute the E2E suite and fix any failures (see section below).
+
+9. **Run & Verify** — execute the E2E suite and fix any failures (see section below).
 
 ## File Structure Convention
 

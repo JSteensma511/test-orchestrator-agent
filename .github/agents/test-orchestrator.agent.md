@@ -42,7 +42,11 @@ Phase 4 → [GATE: ALL specialists finished AND intermediate report written to d
        ↓
 Phase 5 → [GATE: post-generation analyzer response received in full]
        ↓
-Phase 6
+Phase 6 → [GATE: final report written to disk]
+       ↓
+Phase 7 → [GATE: remaining-files check complete]
+       ↓ (if untested files remain)
+       └─────────────────────────────→ Phase 3 (next batch)
 ```
 
 ## Constraints
@@ -101,10 +105,12 @@ Delegate to `Test Project Analyzer` (exact agent name) with the following prompt
 Based on the scoping interview and the Project Test Profile, create a todo list using the todo tool with the following structure:
 
 ```
-[ ] Unit tests   — <N> files targeted: <list top 3 files>
+[ ] Unit tests   — <N> files targeted: <list files>
 [ ] Integration  — <N> boundaries targeted: <list>
 [ ] E2E          — <N> journeys targeted: <list>
 ```
+
+> **Batch size rule**: Process up to **3 source files per batch** in the unit-test slot. If the full scope contains more untested files than can fit in one batch, list only the next 3 in this plan. Remaining files will be picked up automatically in subsequent iterations (Phase 7).
 
 Present the plan to the user and wait for explicit confirmation before proceeding.
 
@@ -226,3 +232,21 @@ Recommended Next Steps
 2. **Save the report** to a file named `testdata/test-generation-reports/TEST_GENERATION_REPORT_<timestamp>.txt` in the selected project root directory using the edit tool. Create the `testdata/test-generation-reports` folder if it does not exist.
 
 3. **Confirm export** with a message: "✓ Test Generation Report exported to `testdata/test-generation-reports/TEST_GENERATION_REPORT_<timestamp>.txt`"
+
+---
+
+## Phase 7 — Continuation Check
+
+After the final report is confirmed written, determine whether untested files remain in the project root.
+
+1. **Extract the remaining-gaps list** from the post-generation analyzer output captured in Phase 5. This is the authoritative list of source files that still lack adequate test coverage.
+
+2. **Decision**:
+   - If **no untested files remain** → the pipeline is complete. Announce: "All files have been covered. Pipeline complete."
+   - If **untested files remain** → announce: "Continuing to next batch. Files still pending: [list]". Then **loop back to Phase 3** using those remaining files as the new scope. Carry forward the same project root, Project Test Profile (re-use the last one — do NOT re-run Phase 2 unless the analyzer flagged structural changes), and run timestamp family (append `-b<N>` suffix to the timestamp for each subsequent batch, e.g. `20260430-120000-b2`).
+
+3. **Ask the user for confirmation** before starting the next batch. Present the list of remaining files and prompt: "There are still untested files remaining: [list]. Reply with **'continue'** to process the next batch, or **'stop'** to end the pipeline here." Do NOT proceed until the user explicitly replies with **'continue'**. If the user replies with **'stop'** or any other response, end the pipeline and announce: "Pipeline stopped. Remaining files were not processed."
+
+4. **Repeat** Phases 3 → 4 → 5 → 6 → 7 until Phase 7 finds no remaining untested files.
+
+> **GATE 7**: Do NOT loop back to Phase 3 unless the remaining-gaps list is non-empty and has been fully extracted from the Phase 5 analyzer output.

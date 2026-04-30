@@ -31,16 +31,26 @@ For each class/module, write tests for:
 
 ## Approach
 
-1. Read the target source file(s) listed by the orchestrator.
-2. Identify all public methods/functions and their dependencies.
-3. Read the Project Test Profile to know the exact test framework, assertion style, and file placement convention.
-4. For each dependency, determine the correct mock/stub approach for the detected framework.
-5. Write the test file. Place it according to the project's existing convention (or next to the source file if no convention exists).
-6. After writing, scan the test file and verify:
+### Pre-flight — Read Before You Write
+Before writing a single line of test code, complete all of these steps:
+
+1. Read the **Concrete Code Patterns** and **Path & Module Resolution** sections from the Project Test Profile. These are the ground truth for import syntax, mock patterns, and path aliases — use them verbatim as templates.
+2. Read **2–3 existing passing unit test files** that are similar in style to what you are about to write. Identify the exact import paths used for the module under test and for test utilities/helpers.
+3. Read the **test runner config file** (`jest.config.*`, `vitest.config.*`, etc.) and the **tsconfig** — confirm which path aliases are active and which global setup files run before tests.
+4. Read the **target source file(s)** listed by the orchestrator. Identify all public methods/functions and their dependencies.
+5. For each dependency, determine the correct mock/stub approach by looking at how the same (or similar) dependencies are mocked in the existing test files you just read.
+
+### Writing
+6. Write the test file using only import paths and mock patterns you confirmed in the pre-flight steps. Place it according to the project's existing convention (or next to the source file if no convention exists).
+7. After writing, scan the test file and verify:
    - Every public method has at least one test.
    - Every `if`/`switch` branch has a test.
    - Every `throw`/`catch` has a test.
-7. **Run & Verify** — execute the test suite and fix any failures (see section below).
+
+### Compile Check (TypeScript / typed projects only)
+8. Before running any tests, run `tsc --noEmit` (or the equivalent for the detected language) scoped to the project root. Fix every type error in the new test file before proceeding. Do NOT skip this step — compile errors are the #1 cause of first-run failures.
+
+9. **Run & Verify** — execute the test suite and fix any failures (see section below).
 
 ## Write → Run → Review → Fix Loop
 

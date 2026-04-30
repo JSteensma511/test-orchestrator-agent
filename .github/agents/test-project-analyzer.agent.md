@@ -49,7 +49,16 @@ Search config files and `devDependencies`/test sections for:
 Look for folder names and structures: `controllers/`, `services/`, `repositories/`, `handlers/`, `routes/`, `middleware/`, `domain/`, `application/`, `infrastructure/`.
 
 ### 5. Sample Existing Tests
-Read up to 3 existing test files to understand naming conventions, folder placement, and assertion styles.
+Read up to **10** existing test files (prioritize files that are currently passing). Extract and record the following **verbatim code snippets** — these are inserted into the Project Test Profile so specialists can replicate them exactly:
+- One complete import block (all import statements from the top of a test file).
+- One complete mock/stub declaration (e.g. `jest.mock(...)`, `vi.mock(...)`, `sinon.stub(...)` call).
+- One complete `beforeAll`/`beforeEach`/`afterAll`/`afterEach` block if present.
+- One representative `describe`/`it`/`test` block showing the assertion style.
+
+Also read and record:
+- The test runner config file (`jest.config.*`, `vitest.config.*`, `pytest.ini`, etc.) — extract `roots`, `moduleNameMapper`, `setupFilesAfterFramework`, `testMatch`, `transform`, and any path aliases.
+- The `tsconfig.json` (or equivalent) — extract `paths`, `baseUrl`, and `moduleResolution`.
+- Any global test setup files referenced in the test runner config.
 
 ### 6. Identify Testable Units
 List the most important files/modules that lack test coverage or are complex enough to require it. Focus on:
@@ -89,6 +98,31 @@ Return ONLY this markdown report — no prose before or after:
 - Test file pattern: <e.g. *.spec.ts next to source / __tests__ folder>
 - Assertion style: <describe/it / test() / [Fact] / etc.>
 - Mocking approach: <jest.mock / sinon / moq / pytest-mock / etc. or "none detected">
+
+### Concrete Code Patterns (verbatim from existing passing tests)
+**Import block example:**
+```
+<paste exact import lines from one test file>
+```
+**Mock/stub declaration example:**
+```
+<paste exact mock setup block>
+```
+**Setup/teardown hook example:**
+```
+<paste exact beforeAll/beforeEach/afterAll/afterEach block, or "none detected">
+```
+**Assertion style example:**
+```
+<paste one representative describe/it/test block>
+```
+
+### Path & Module Resolution
+- tsconfig baseUrl: <value or "not set">
+- tsconfig paths/aliases: <list key aliases, e.g. "@/*" → "src/*", or "none">
+- Test runner moduleNameMapper / moduleDirectories: <list entries or "none">
+- Global setup files: <list paths or "none">
+- Transform config: <relevant entries or "none">
 
 ### Coverage Gaps (Top Priority Targets)
 1. <file/module path> — reason
