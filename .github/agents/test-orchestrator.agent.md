@@ -70,7 +70,7 @@ Before doing anything else, try to answer these questions from the users prompt.
    - `c)` A specific file or class (ask which)
 
 2. **Project Root**: Which project root path should this run target?
-       - `a)` One detected project root folder (ask user to pick one)
+       - `a)` One detected project root folder (ask user to pick one, or try to infer from prompt and scope)
        - `b)` Repository root (only when it is a true single-project repository)
 
 3. **Layers**: Which test layers are in scope? (default: all recommended by analysis)
