@@ -35,5 +35,7 @@ In my opinion this agent will be most valuable when in use for a longer time. Se
 
 - Currently I feel the agent takes way too long. Especially when you are running it for entire projects it might go on an hour long thinking spree. The quality is high, but I feel like it would be better if faster. I have tried to make it use old documentation of itself in order to speed it up, but I havent been able to test it yet. I also have it limited to at most 3 files per run, so it does not blow itself up.
 
+- I think the test writers are not efficient enough. They can be improved to hopefully need less trial-and-error loops to find the passing test. Currently the entire flow is slowed down a lot by a lot of review iterations without any progress. Maybe if we improve the strategy of how the tests are written
+
 
 
