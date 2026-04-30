@@ -68,12 +68,18 @@ After writing all test files, enter this loop and repeat until all gates pass:
 
 ### Step 1 — Run New Tests Only
 Run the E2E command from the Project Test Profile scoped to only the new test files you created (e.g. `npx playwright test path/to/new.spec.ts`, `npx cypress run --spec path/to/new.spec.ts`).
-- If any new tests fail: read the failure output, fix the test/page-object file, and go back to Step 1. This is very important!
+- If any new tests fail: delegate triage to `Bug Investigator` (exact agent name) before changing any file.
+   - If verdict is `TEST_BUG`: fix the test/page-object file and go back to Step 1.
+   - If verdict is `SOURCE_BUG`: do not change source code and do not "fix away" the failing assertion. Add a clear `BUG DETECTED` comment near the failing test and, if needed to keep the suite green, temporarily mark the test as expected-failure/skip with a bug reference. Record a structured bug report for the orchestrator, then continue the loop.
+   - If verdict is `AMBIGUOUS`: do not guess. Escalate the case to the orchestrator for human review, then continue remaining work.
 - If all new tests pass: proceed to Step 2.
 
 ### Step 2 — Run Full E2E Suite
 Now run the full E2E command from the Project Test Profile without any file filter (e.g. `npx playwright test`, `npx cypress run`).
-- If any tests fail: read the failure output, fix the issue (your new tests must not break existing tests), and go back to Step 1.
+- If any tests fail: delegate triage to `Bug Investigator` first.
+   - If verdict is `TEST_BUG`: fix the test-related issue and go back to Step 1.
+   - If verdict is `SOURCE_BUG`: do not modify source code; preserve and report the bug signal as described above, then continue.
+   - If verdict is `AMBIGUOUS`: escalate for human review.
 - If all tests pass: proceed to Step 3.
 
 ### Step 3 — Review
@@ -91,5 +97,11 @@ After writing all files and completing Run & Verify, output an **E2E Test Summar
 | Journey | Priority | Steps | Tests Passing | Precondition Setup | Tool |
 |---------|----------|-------|---------------|--------------------|------|
 | ...     | P0/P1    | ...   | ...           | ...                | ...  |
+
+- Include a **Bug Reports** section when any `SOURCE_BUG` or `AMBIGUOUS` verdict occurs:
+
+| ID | Verdict | File | Severity | Evidence | Recommendation |
+|----|---------|------|----------|----------|----------------|
+| ... | ... | ... | High/Medium/Low/N/A | ... | ... |
 
 - Immediately after the table, include the **full raw output** of the final passing test run (copy-paste the terminal output verbatim) under a `### Test Runner Output` heading. This is required proof that all tests passed.
